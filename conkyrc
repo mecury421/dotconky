@@ -21,7 +21,7 @@ default_shade_color black
 default_outline_color green
 alignment top_right
 gap_x 12
-gap_y 30
+gap_y 35
 no_buffers yes
 uppercase no
 cpu_avg_samples 2
@@ -36,22 +36,32 @@ Kernel: $alignr$kernel
 Uptime: $alignr$uptime
 
 CPU: ${alignr}${freq} MHz
-Core 1: $alignr${freq 1} MHz
-Core 2: $alignr${freq 2} MHz
 Active Processes: ${alignr}$running_processes / $processes
 Load: ${alignr}$loadavg
 
-CPU1 ${alignr}${cpu cpu1}%
+CORE 0 ${alignr}${cpu cpu1}%
 ${cpubar 4 cpu1}
-CPU2 ${alignr}${cpu cpu2}%
+CORE 1 ${alignr}${cpu cpu2}%
 ${cpubar 4 cpu2}
+CORE 2 ${alignr}${cpu cpu3}%
+${cpubar 4 cpu3}
+CORE 3 ${alignr}${cpu cpu4}%
+${cpubar 4 cpu4}
+CORE 4 ${alignr}${cpu cpu5}%
+${cpubar 4 cpu5}
+CORE 5 ${alignr}${cpu cpu6}%
+${cpubar 4 cpu6}
+CORE 6 ${alignr}${cpu cpu7}%
+${cpubar 4 cpu7}
+CORE 7 ${alignr}${cpu cpu8}%
+${cpubar 4 cpu8}
 
 Ram ${alignr}$mem / $memmax ($memperc%)
 ${membar 4}
 swap ${alignr}$swap / $swapmax ($swapperc%)
 ${swapbar 4}
 
-Root: ${alignr}${fs_free /} / ${fs_size /}
+Filesystem: ${alignr}${fs_free /} / ${fs_size /}
 ${fs_bar 4 /}
 
 Highest CPU $alignr CPU% MEM%
@@ -63,6 +73,15 @@ Highest MEM $alignr CPU% MEM%
 ${top_mem name 1}$alignr${top_mem cpu 1}${top_mem mem 1}
 ${top_mem name 2}$alignr${top_mem cpu 2}${top_mem mem 2}
 ${top_mem name 3}$alignr${top_mem cpu 3}${top_mem mem 3}
+
+${color white}TEMPERATURES ${hr 1}${color}
+
+ACPI: ${alignr}${acpitemp}C
+Core 0: ${alignr}${exec sensors | grep 'Core 0' | awk '{print $3}'}
+Core 1: ${alignr}${exec sensors | grep 'Core 1' | awk '{print $3}'}
+Core 2: ${alignr}${exec sensors | grep 'Core 2' | awk '{print $3}'}
+Core 3: ${alignr}${exec sensors | grep 'Core 3' | awk '{print $3}'}
+Graphics: ${alignr}${exec sensors | grep nouveau-pci -A 2 | grep temp1 | awk '{print $2}'}
 
 ${color white}NETWORK ${hr 1}${color}
 
