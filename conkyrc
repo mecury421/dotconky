@@ -1,5 +1,5 @@
 background no
-font Sans:size=8
+font Sans:size=9
 #xftfont Sans:size=10
 use_xft yes
 xftalpha 0.9
@@ -10,7 +10,7 @@ own_window_type normal
 own_window_transparent yes
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 double_buffer yes
-minimum_size 220 5
+minimum_size 800 800
 maximum_width 220
 draw_shades yes
 draw_outline no
@@ -21,7 +21,7 @@ default_shade_color black
 default_outline_color green
 alignment top_right
 gap_x 12
-gap_y 35
+gap_y 30
 no_buffers yes
 uppercase no
 cpu_avg_samples 2
@@ -38,7 +38,7 @@ Uptime: $alignr$uptime
 CPU: ${alignr}${freq} MHz
 Core 1: $alignr${freq 1} MHz
 Core 2: $alignr${freq 2} MHz
-Active Processes: ${alignr}$running_processes / $processes 
+Active Processes: ${alignr}$running_processes / $processes
 Load: ${alignr}$loadavg
 
 CPU1 ${alignr}${cpu cpu1}%
@@ -51,6 +51,9 @@ ${membar 4}
 swap ${alignr}$swap / $swapmax ($swapperc%)
 ${swapbar 4}
 
+Root: ${alignr}${fs_free /} / ${fs_size /}
+${fs_bar 4 /}
+
 Highest CPU $alignr CPU% MEM%
 ${top name 1}$alignr${top cpu 1}${top mem 1}
 ${top name 2}$alignr${top cpu 2}${top mem 2}
@@ -61,29 +64,13 @@ ${top_mem name 1}$alignr${top_mem cpu 1}${top_mem mem 1}
 ${top_mem name 2}$alignr${top_mem cpu 2}${top_mem mem 2}
 ${top_mem name 3}$alignr${top_mem cpu 3}${top_mem mem 3}
 
-${color white}TEMPERATURES ${hr 1}${color}
-
-ACPI: ${alignr}${acpitemp}C
-Core 1: ${alignr}${exec sensors | grep 'Core 0' | awk '{print $3}'}
-Core 2: ${alignr}${exec sensors | grep 'Core 1' | awk '{print $3}'}
-Graphics: ${alignr}${exec sensors | grep radeon-pci -A 2 | grep temp1 | awk '{print $2}'}
-
-${color white}Filesystem ${hr 1}${color}
-
-Root: ${alignr}${fs_free /} / ${fs_size /}
-${fs_bar 4 /}
-Home: ${alignr}${fs_free /home} / ${fs_size /home}
-${fs_bar 4 /home}
-Windows: ${alignr}${fs_free /mnt/windows/main} / ${fs_size /mnt/windows/main}
-${fs_bar 4 /mnt/windows/main}
-Documents: ${alignr}${fs_free /mnt/documents} / ${fs_size /mnt/documents}
-${fs_bar 4 /mnt/documents}
-Media: ${alignr}${fs_free /mnt/media} / ${fs_size /mnt/media}
-${fs_bar 4 /mnt/media}
-
 ${color white}NETWORK ${hr 1}${color}
 
 Down ${downspeed wlan0} k/s ${alignr}Up ${upspeed wlan0} k/s
 ${downspeedgraph wlan0 25,107} ${alignr}${upspeedgraph wlan0 25,107}
 Total ${totaldown wlan0} ${alignr}Total ${totalup wlan0}
 
+${color white}CLUSTER ${hr 1}${color}
+
+${execi 10 python ~/Scripts/query_cluster.py typhon} (Typhon)
+${execi 10 python ~/Scripts/query_cluster.py vishnu} (Vishnu)
